@@ -6,7 +6,7 @@ const router = express.Router();
 router.get('/', async (req,res) => {
     const boards = await Board.findAll();
     console.log(boards);
-    res.json(boards);
+    res.status(200).send(boards);
 });
 
 router.post('/',async (req, res, next) => {
