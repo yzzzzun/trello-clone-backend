@@ -5,6 +5,7 @@ const session = require("express-session");
 const passport = require("passport");
 const cookieParser = require("cookie-parser");
 const passportConfig = require("./passport");
+const cors = require("cors");
 
 const app = express();
 
@@ -20,16 +21,22 @@ db.sequelize
 //front 에서 넘어오는 데이터를 req.body 에 넣어줌
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 
 passportConfig();
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(cookieParser("cookie-secret"));
+app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(
   session({
     saveUninitialized: false,
     resave: false,
-    secret: "cookie-secret",
+    secret: process.env.COOKIE_SECRET,
   })
 );
 
