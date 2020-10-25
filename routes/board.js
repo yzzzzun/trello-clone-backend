@@ -1,5 +1,7 @@
 const express = require("express");
+const sequelize = require("sequelize");
 const { Board } = require("../models");
+const { isExistBoard } = require("./boardMiddleware");
 
 const router = express.Router();
 
@@ -24,20 +26,8 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.delete("/:boardID", async (req, res, next) => {
+router.delete("/:boardID", isExistBoard, async (req, res, next) => {
   try {
-    const exBoard = await Board.findOne({
-      where: {
-        id: req.params.boardID,
-      },
-    });
-
-    if (!exBoard) {
-      return res
-        .status(403)
-        .send("아이디에 해당하는 board를 찾을 수 없습니다.");
-    }
-
     await Board.destroy({
       where: {
         id: req.params.boardID,
@@ -47,6 +37,35 @@ router.delete("/:boardID", async (req, res, next) => {
     return res.status(200).send("success");
   } catch (error) {
     console.error(error);
+    next(error);
+  }
+});
+
+router.put("/:boardID", isExistBoard, async (req, res, next) => {
+  try {
+    const updateBoard = await Board.update(
+      {
+        name: req.body.name,
+        isStared: req.body.isStared,
+        authority: req.body.authority,
+        background: req.body.background,
+      },
+      {
+        where: {
+          id: req.params.boardID,
+        },
+      }
+    );
+
+    const result = await Board.findOne({
+      where: {
+        id: updateBoard,
+      },
+    });
+
+    res.status(200).send(result);
+  } catch (error) {
+    console.log(error);
     next(error);
   }
 });
