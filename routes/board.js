@@ -17,11 +17,13 @@ router.post("/", async (req, res, next) => {
       name: req.body.name,
       isStared: req.body.isStared,
       authority: req.body.authority,
-      background: req.body.background
+      background: req.body.background,
     });
     res.status(201).send(board);
   } catch (error) {
-    console.error(error);
+    //const err = new Error("board 데이터 입력을 확인해주세요.");
+    error.status = 404;
+    error.message = "board 데이터 입력을 확인해주세요.";
     next(error);
   }
 });
@@ -30,8 +32,8 @@ router.delete("/:boardID", isExistBoard, async (req, res, next) => {
   try {
     await Board.destroy({
       where: {
-        id: req.params.boardID
-      }
+        id: req.params.boardID,
+      },
     });
 
     return res.status(200).send("success");
@@ -45,8 +47,8 @@ router.get("/:boardID", async (req, res, next) => {
   try {
     const findBoard = await Board.findOne({
       where: {
-        id: req.params.boardID
-      }
+        id: req.params.boardID,
+      },
     });
     return res.status(200).send(findBoard);
   } catch (error) {
@@ -62,24 +64,26 @@ router.put("/:boardID", isExistBoard, async (req, res, next) => {
         name: req.body.name,
         isStared: req.body.isStared,
         authority: req.body.authority,
-        background: req.body.background
+        background: req.body.background,
       },
       {
         where: {
-          id: req.params.boardID
-        }
+          id: req.params.boardID,
+        },
       }
     );
 
     const result = await Board.findOne({
       where: {
-        id: updateBoard
-      }
+        id: updateBoard,
+      },
     });
 
     res.status(200).send(result);
   } catch (error) {
     console.log(error);
+    error.message = "board 수정 데이터를 확인해주세요.";
+    error.status = 404;
     next(error);
   }
 });

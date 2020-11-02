@@ -16,15 +16,20 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
+    "express-swaggerize-ui": "^1.1.0",
     "mariadb": "^2.4.2",
     "mysql2": "^2.1.0",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "sequelize": "^6.3.5",
     "sequelize-cli": "^6.2.0",
-    "swagger": "^0.7.5"
+    "swagger": "^0.7.5",
+    "swagger-jsdoc": "^5.0.0",
+    "swagger-ui": "^3.36.1",
+    "swagger-ui-express": "^4.1.4"
   },
   "devDependencies": {
+    "express-swagger-generator": "^1.1.17",
     "nodemon": "^2.0.4"
   }
 }

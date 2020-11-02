@@ -17,7 +17,9 @@ router.post("/", isNotLoggedIn, async (req, res, next) => {
     });
 
     if (exUser) {
-      return res.status(403).send("이미 사용중인 아이디입니다.");
+      const error = new Error("이미 사용중인 아이디입니다.");
+      error.status = 403;
+      next(error);
     }
 
     const hashedPassword = await bcrypt.hash(req.body.password, 12);
@@ -43,7 +45,9 @@ router.post("/login", (req, res, next) => {
     }
 
     if (info) {
-      return res.status(401).send(info.reason);
+      const error = new Error(info.reason);
+      error.status = 401;
+      next(error);
     }
 
     return req.login(user, async (loginError) => {

@@ -7,7 +7,9 @@ exports.isExistBoard = async (req, res, next) => {
   });
 
   if (!exBoard) {
-    return res.status(403).send("아이디에 해당하는 board를 찾을 수 없습니다.");
+    const error = new Error("아이디에 해당하는 board를 찾을 수 없습니다.");
+    error.status = 403;
+    next(error);
   }
   next();
 };
