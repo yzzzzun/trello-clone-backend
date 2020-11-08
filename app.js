@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const boardRouter = require("./routes/board");
 const userRouter = require("./routes/user");
+const cardRouter = require("./routes/card");
 const session = require("express-session");
 const passport = require("passport");
 const cookieParser = require("cookie-parser");
@@ -110,6 +111,7 @@ app.use(
  */
 app.use("/boards", boardRouter);
 app.use("/users", userRouter);
+app.use("/cards", cardRouter);
 
 app.use((error, req, res, next) => {
   res.status(error.status || 500);

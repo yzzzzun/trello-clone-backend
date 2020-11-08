@@ -24,7 +24,9 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   //TODO 연관관계 설정
-  Board.associate = (db) => {};
+  Board.associate = (db) => {
+    db.Board.hasMany(db.Card);
+  };
 
   return Board;
 };

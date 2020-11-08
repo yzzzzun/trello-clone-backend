@@ -16,6 +16,7 @@ const sequelize = new Sequelize(
 
 db.Board = require("./board")(sequelize, Sequelize);
 db.User = require("./user")(sequelize, Sequelize);
+db.Card = require("./card")(sequelize, Sequelize);
 
 Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {
